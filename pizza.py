@@ -39,3 +39,5 @@ elif garlic != "N":
 print(f"You ordered a pizza with: {order}")
 print(f"The price in total is {price}")
 print("Thank you, and come again! :)")
+
+#function for asking different ingridients - homework eq. new 10 ingridients using just 10 invocations of the function
