@@ -13,10 +13,13 @@
 
 from turtle import *
 from random import random
+from math import pi
+
 
 def ini_graph():
     mode("logo")
     speed(0)
+    tracer(False)   #speeds up the graphics faster and prevents animation
     
 #move from current position
 def hop(x, y): 
@@ -27,6 +30,7 @@ def hop(x, y):
     lt(90)
     down()
     
+    
 def rectangle(my_width, height):
     for i in range(2):
         fd(height)
@@ -34,8 +38,21 @@ def rectangle(my_width, height):
         fd(my_width)
         rt(90)
 
+
 def monte_carlo(side, amount):
+    #draw a square
     rectangle(side, side)
+    
+    #draw a quarter of the circle
+    color("blue")
+    hop(side, 0)      # Required by the circle function starting position of the turtle
+    circle(side, 90)
+    # Return the turtle to its starting position
+    rt(90)
+    hop(0, -side)
+    
+    #init counter
+    hits = 0
     
     for i in range(amount):
         #throw a stone to select a place within the square
@@ -48,6 +65,7 @@ def monte_carlo(side, amount):
         #sqrt(n) < 1 only if n < 1
         if x*x + y*y <= 1:
             my_color = "green"
+            hits += 1
         else:
             my_color = "red"
         
@@ -55,6 +73,9 @@ def monte_carlo(side, amount):
         hop(x*side, y*side)
         dot(5, my_color)
         hop(-x*side, -y*side)
+        
+    print(f"Throws: {amount}, hits: {hits}, calculated pi {4*hits/amount:10.8f}, Python's pi {pi:10.8f}")
+    
     
 def main():
     print("Monte-carlo simulation")
@@ -65,9 +86,8 @@ def main():
     marg_y = 10
     hop(-window_width()//2 + marg_x, -window_height()//2 + marg_y)
     square_side = min(window_width()-2*marg_x, window_height()-2*marg_y)
-    monte_carlo(square_side, 1000)
-    
-    
+    monte_carlo(square_side, 10) # Do not set values larger than say 100 without tracer(False)
+    update()    #to see results
     done()
     print("Done!")
     
